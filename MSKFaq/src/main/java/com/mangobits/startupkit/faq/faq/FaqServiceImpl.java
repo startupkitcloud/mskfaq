@@ -1,12 +1,15 @@
 package com.mangobits.startupkit.faq.faq;
 
 import com.mangobits.startupkit.core.configuration.ConfigurationService;
+import com.mangobits.startupkit.core.dao.SearchBuilder;
 import com.mangobits.startupkit.core.exception.BusinessException;
 import com.mangobits.startupkit.core.utils.BusinessUtils;
 import com.mangobits.startupkit.notification.NotificationService;
 import com.mangobits.startupkit.user.User;
 import com.mangobits.startupkit.user.UserService;
 import com.mangobits.startupkit.user.UserStatusEnum;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -61,13 +64,19 @@ public class FaqServiceImpl implements FaqService {
 
 		List<Faq> listFaq = null;
 
-		Map<String, Object> params = new HashMap<>();
+		SearchBuilder searchBuilder = new SearchBuilder();
 
+		Map<String, Object> params = new HashMap<>();
+		params.put("idObj", idObj);
+		Sort sort = new Sort(new SortField("creationDate", SortField.Type.LONG, true));
 		if(status == null){
 			params.put("not:status", FaqStatusEnum.BLOCKED.toString());
 		}else{
 			params.put("status", status.toString());
 		}
+
+		searchBuilder.setSort(sort);
+		searchBuilder.appendMap(params);
 
 		listFaq = faqDAO.search(params);
 		return listFaq;
