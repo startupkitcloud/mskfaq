@@ -14,5 +14,20 @@ public class FaqDAO extends AbstractDAO<Faq> {
         return obj.getId();
     }
 
+    public Object retrieveObject (Faq faq){
 
+        Object object = null;
+
+        try {
+
+            Class<?> klass = Class.forName(faq.getTypeObj());
+
+            object = entityManager.find(klass, faq.getIdObj());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return object;
+    }
 }
