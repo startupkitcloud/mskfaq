@@ -66,19 +66,17 @@ public class FaqServiceImpl implements FaqService {
 
 		SearchBuilder searchBuilder = new SearchBuilder();
 
-		Map<String, Object> params = new HashMap<>();
-		params.put("idObj", idObj);
+		searchBuilder.appendParam("idObj", idObj);
 		Sort sort = new Sort(new SortField("creationDate", SortField.Type.LONG, true));
 		if(status == null){
-			params.put("not:status", FaqStatusEnum.BLOCKED.toString());
+			searchBuilder.appendParam("not:status", FaqStatusEnum.BLOCKED.toString());
 		}else{
-			params.put("status", status.toString());
+			searchBuilder.appendParam("status", status.toString());
 		}
 
 		searchBuilder.setSort(sort);
-		searchBuilder.appendMap(params);
 
-		listFaq = faqDAO.search(params);
+		listFaq = faqDAO.search(searchBuilder.build());
 		return listFaq;
 	}
 
