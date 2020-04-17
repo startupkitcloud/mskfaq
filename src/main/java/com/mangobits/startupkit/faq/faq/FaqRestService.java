@@ -2,10 +2,10 @@ package com.mangobits.startupkit.faq.faq;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mangobits.startupkit.admin.util.AdminBaseRestService;
 import com.mangobits.startupkit.core.configuration.ConfigurationService;
 import com.mangobits.startupkit.core.exception.BusinessException;
 import com.mangobits.startupkit.notification.email.EmailService;
-import com.mangobits.startupkit.service.admin.util.AdminBaseRestService;
 import com.mangobits.startupkit.ws.JsonContainer;
 import org.apache.commons.collections.CollectionUtils;
 
